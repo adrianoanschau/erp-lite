@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/* 1. Definição do Tema (Estilo v4) */
+@theme {
+  --color-brand-dark: #1a1a1a;
+  --color-brand-bg: #242424;
+  --color-brand-accent: #f8f8fd;
+  --color-brand-border: #333333;
+  
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* 2. Base e Reset */
+@layer base {
+  :root {
+    color-scheme: dark light;
+  }
+
+  body {
+    @apply m-0 flex flex-col min-w-[320px] min-h-screen overflow-hidden bg-brand-bg text-white antialiased;
+  }
+
+  #root {
+    @apply flex flex-col w-full h-screen;
+  }
+}
+
+/* 3. Componentes de Infraestrutura (Electron Specific) */
+@layer components {
+  /* Barra de título integrada ao layout moderno */
+  .titlebar {
+    @apply h-[45px] bg-brand-dark flex items-center px-[15px] shrink-0 select-none border-b border-brand-border z-[9999] w-full;
+    /* Permite arrastar a janela - Propriedade nativa do Electron */
+    -webkit-app-region: drag;
+  }
+
+  /* Impede que elementos interativos bloqueiem o arraste */
+  .titlebar button, 
+  .titlebar a,
+  .titlebar .no-drag {
+    @apply cursor-default;
+    -webkit-app-region: no-drag;
+  }
+
+  /* Área de conteúdo principal com scroll independente */
+  .content {
+    @apply flex-1 overflow-y-auto flex flex-col items-center justify-center p-8 text-center;
+  }
+}
+
+/* 4. Utilidades Customizadas */
+@layer utilities {
+  .logo-shadow {
+    filter: drop-shadow(0 0 2em rgba(100, 108, 255, 0.67));
+  }
+}
