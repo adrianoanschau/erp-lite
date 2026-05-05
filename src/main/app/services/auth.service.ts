@@ -20,13 +20,18 @@ export class AuthService {
     }
 
     return {
-      user: {
-        id: authData.user.id,
-        email: authData.user.email,
-        name: profile.full_name,
-        role: profile.role,
-      },
+      user: authData.session.user,
       session: authData.session,
+      profile,
     };
+  }
+
+  async logout() {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+    } catch (err) {
+      console.error('Erro ao sair do Supabase:', err);
+    }
   }
 }

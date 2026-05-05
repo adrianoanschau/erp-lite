@@ -29,9 +29,8 @@ export function useLogin() {
         try {
             const response = await login(email, password);
             console.log('Sucesso ao autenticar:', response.user.email);
-            window.electron.send('auth-success');
         } catch (err: { message: string }) {
-            setError(err.message || 'Falha na autenticação. Tente novamente.');
+            setError(err?.message || 'Falha na autenticação. Tente novamente.');
         } finally {
             setLoading(false);
         }
