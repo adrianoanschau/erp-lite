@@ -3,7 +3,6 @@ import { StorageService } from "./storage.service";
 
 export class SessionService {
   async getInitialSession() {
-    // Força a restauração da sessão no cliente em memória do Supabase
     const savedToken = StorageService.getToken();
     if (savedToken) {
       try {

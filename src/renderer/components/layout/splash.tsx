@@ -1,29 +1,20 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getInitialSession } from '@/renderer/functions/session';
+import { useAuth } from '@/renderer/contexts/auth-context';
 
 const Splash: React.FC = () => {
+  const { isAuthenticated, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function checkAuth() {
-      try {
-        const data = await getInitialSession();
-        
-        if (data && data.profile?.status === 'active') {
+    if (!loading) {
+      if (isAuthenticated) {
           navigate('/dashboard');
-        } else {
-          window.electron.send('logout');
-        }
-      } catch (err) {
-        console.error('Erro na inicialização:', err);
-        window.electron.send('logout');
+          return;
       }
+      window.electron.send('logout');
     }
-
-    const timer = setTimeout(checkAuth, 1500);
-    return () => clearTimeout(timer);
-  }, [navigate]);
+  }, [loading, isAuthenticated, navigate]);
 
   return (
     <div className="h-screen w-screen flex flex-col items-center justify-center bg-slate-900 text-white">

@@ -30,7 +30,7 @@ export function useLogin() {
             const response = await login(email, password);
             console.log('Sucesso ao autenticar:', response.user.email);
         } catch (err: { message: string }) {
-            setError(err.message || 'Falha na autenticação. Tente novamente.');
+            setError(err?.message || 'Falha na autenticação. Tente novamente.');
         } finally {
             setLoading(false);
         }

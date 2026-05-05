@@ -20,13 +20,9 @@ export class AuthService {
     }
 
     return {
-      user: {
-        id: authData.user.id,
-        email: authData.user.email,
-        name: profile.full_name,
-        role: profile.role,
-      },
+      user: authData.session.user,
       session: authData.session,
+      profile,
     };
   }
 

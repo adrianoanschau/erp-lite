@@ -1,8 +1,10 @@
 import { Route, HashRouter as Router, Routes } from "react-router-dom";
 import Splash from "./components/layout/splash";
-import { logout } from "./functions/auth";
+import { useAuth } from "./contexts/auth-context";
 
 function App() {
+  const { logout } = useAuth();
+
   const handleLogout = async () => {
     return await logout();
   }

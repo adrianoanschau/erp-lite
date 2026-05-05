@@ -21,7 +21,6 @@ function setupIPC() {
   });
 
   ipcMain.on('logout', () => {
-    console.log('logout');
     StorageService.deleteToken();
 
     createLoginWindow();
