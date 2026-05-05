@@ -1,7 +1,24 @@
 import { supabase } from "./supabase";
+import { StorageService } from "./storage.service";
 
 export class SessionService {
   async getInitialSession() {
+    // Força a restauração da sessão no cliente em memória do Supabase
+    const savedToken = StorageService.getToken();
+    if (savedToken) {
+      try {
+        const parsed = JSON.parse(savedToken);
+        if (parsed.access_token && parsed.refresh_token) {
+          await supabase.auth.setSession({
+            access_token: parsed.access_token,
+            refresh_token: parsed.refresh_token,
+          });
+        }
+      } catch (e) {
+        console.error("Falha ao analisar o token salvo:", e);
+      }
+    }
+
     const { data: { session }, error } = await supabase.auth.getSession();
     
     if (error || !session) return null;
