@@ -54,3 +54,8 @@
     filter: drop-shadow(0 0 2em rgba(100, 108, 255, 0.67));
   }
 }
+
+.app-header {
+  @apply w-full h-[45px];
+  background-color: #f5f5f5;;
+}

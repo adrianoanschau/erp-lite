@@ -8,3 +8,11 @@ contextBridge.exposeInMainWorld('api', {
     ipcRenderer.invoke(`${channel}:${method}`, ...args)
 })
 
+contextBridge.exposeInMainWorld('electron', {
+  send: (channel: string, data?: unknown) => {
+    const validChannels = ['auth-success'];
+    if (validChannels.includes(channel)) {
+      ipcRenderer.send(channel, data);
+    }
+  }
+});

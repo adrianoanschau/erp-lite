@@ -1,6 +1,6 @@
 import { supabase } from "./supabase";
 
-export const authService = {
+export class AuthService {
   async login(email: string, password: string) {
     const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
       email,
@@ -13,9 +13,9 @@ export const authService = {
       .from('profiles')
       .select('full_name, role, status')
       .eq('id', authData.user.id)
-      .single();
+      .maybeSingle();
 
-    if (profileError || profile.status !== 'active') {
+    if (profileError || profile?.status !== 'active') {
       throw new Error('Usuário inativo ou perfil não encontrado.');
     }
 
