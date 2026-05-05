@@ -10,7 +10,7 @@ contextBridge.exposeInMainWorld('api', {
 
 contextBridge.exposeInMainWorld('electron', {
   send: (channel: string, data?: unknown) => {
-    const validChannels = ['auth-success', 'logout'];
+    const validChannels = ['ready', 'auth-success', 'logout'];
     if (validChannels.includes(channel)) {
       ipcRenderer.send(channel, data);
     }

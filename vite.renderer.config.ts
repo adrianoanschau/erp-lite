@@ -17,6 +17,7 @@ export default defineConfig({
       input: {
         index: resolve(__dirname, 'index.html'),
         login: resolve(__dirname, 'login.html'),
+        splash: resolve(__dirname, 'splash.html'),
       },
     },
   },

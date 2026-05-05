@@ -1,20 +1,31 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/renderer/contexts/auth-context';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const Splash: React.FC = () => {
   const { isAuthenticated, loading } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const mode = searchParams.get('mode');
 
   useEffect(() => {
-    if (!loading) {
-      if (isAuthenticated) {
-          navigate('/dashboard');
-          return;
+    async function checkAuth() {
+      try {
+        if (!loading) {
+          if (mode === 'initial_boot') {
+            window.electron.send('ready', isAuthenticated);
+          } else {
+            navigate('/dashboard');
+          }
+        }
+      } catch (err) {
+        console.error('Erro no Splash:', err);
       }
-      window.electron.send('logout');
     }
-  }, [loading, isAuthenticated, navigate]);
+
+    const timer = setTimeout(checkAuth, 1000);
+    return () => clearTimeout(timer);
+  }, [loading, isAuthenticated, mode, navigate]);
 
   return (
     <div className="h-screen w-screen flex flex-col items-center justify-center bg-slate-900 text-white">
