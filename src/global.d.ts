@@ -17,6 +17,9 @@ declare global {
 
   interface Window {
     api: IElectronAPI
+    electron: {
+      send: (channel: string, data?: unknown) => void
+    }
   }
 }
 
