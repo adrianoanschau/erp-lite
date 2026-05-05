@@ -1,8 +1,9 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
+import 'dotenv/config'
 import { IPCManager } from './config/IPCManager'
 import { serviceRegistry } from './config/serviceRegistry'
-import 'dotenv/config'
+import { StorageService } from './app/services'
 
 let loginWindow: BrowserWindow | null = null;
 let mainWindow: BrowserWindow | null = null;
@@ -12,9 +13,22 @@ function setupIPC() {
     IPCManager.registerService(channel, instance);
   });
 
-  ipcMain.on('auth-success', () => {
+  ipcMain.on('auth-success', (event, sessionData) => {
+    StorageService.saveToken(JSON.stringify(sessionData));
+
     createMainWindow();
     if (loginWindow) loginWindow.close();
+  });
+
+  ipcMain.on('logout', () => {
+    console.log('logout');
+    StorageService.deleteToken();
+
+    createLoginWindow();
+    if (mainWindow) {
+      mainWindow.close();
+      mainWindow = null;
+    }
   });
 }
 
@@ -62,8 +76,14 @@ function createMainWindow() {
   mainWindow.maximize();
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   setupIPC();
+  const savedSession = StorageService.getToken();
+
+  if (savedSession) {
+    return createMainWindow();
+  }
+
   createLoginWindow();
 });
 

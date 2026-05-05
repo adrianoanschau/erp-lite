@@ -29,4 +29,13 @@ export class AuthService {
       session: authData.session,
     };
   }
+
+  async logout() {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+    } catch (err) {
+      console.error('Erro ao sair do Supabase:', err);
+    }
+  }
 }
