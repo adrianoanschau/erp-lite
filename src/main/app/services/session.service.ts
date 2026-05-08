@@ -1,5 +1,5 @@
-import { supabase } from "./supabase";
-import { StorageService } from "./storage.service";
+import { supabase } from './supabase';
+import { StorageService } from './storage.service';
 
 export class SessionService {
   async getInitialSession() {
@@ -14,12 +14,15 @@ export class SessionService {
           });
         }
       } catch (e) {
-        console.error("Falha ao analisar o token salvo:", e);
+        console.error('Falha ao analisar o token salvo:', e);
       }
     }
 
-    const { data: { session }, error } = await supabase.auth.getSession();
-    
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.getSession();
+
     if (error || !session) return null;
 
     const { data: profile } = await supabase
@@ -35,4 +38,4 @@ export class SessionService {
 
     return { user: session.user, profile };
   }
-};
+}

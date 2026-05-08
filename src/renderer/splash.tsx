@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { HashRouter as Router } from "react-router-dom";
+import { HashRouter as Router } from 'react-router-dom';
 import './assets/index.css';
 import Splash from './components/layout/splash';
 import { AuthProvider } from './contexts/auth-context';
@@ -12,5 +12,5 @@ createRoot(document.getElementById('root')!).render(
         <Splash />
       </Router>
     </AuthProvider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );

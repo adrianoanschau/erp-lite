@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* 1. Definição do Tema (Estilo v4) */
 @theme {
@@ -6,8 +6,8 @@
   --color-brand-bg: #242424;
   --color-brand-accent: #f8f8fd;
   --color-brand-border: #333333;
-  
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 
 /* 2. Base e Reset */
@@ -17,7 +17,7 @@
   }
 
   body {
-    @apply m-0 flex flex-col min-w-[320px] min-h-screen overflow-hidden bg-brand-bg text-white antialiased;
+    @apply m-0 flex flex-col min-w-[320px] min-h-screen overflow-hidden text-white antialiased;
   }
 
   #root {
@@ -35,7 +35,7 @@
   }
 
   /* Impede que elementos interativos bloqueiem o arraste */
-  .titlebar button, 
+  .titlebar button,
   .titlebar a,
   .titlebar .no-drag {
     @apply cursor-default;
@@ -56,6 +56,12 @@
 }
 
 .app-header {
-  @apply w-full h-[45px];
-  background-color: #f5f5f5;;
+  @apply w-full flex items-center justify-between bg-slate-50/50 border-b border-slate-100;
+  background-color: #f5f5f5;
+  height: 45px !important;
+}
+
+.app-container {
+  @apply flex-1 flex flex-col;
+  height: calc(100% - 45px);
 }

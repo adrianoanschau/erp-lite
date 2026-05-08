@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
 import { login, logout } from '../functions/auth';
 import { getInitialSession } from '../functions/session';
 
@@ -24,7 +30,9 @@ interface AuthContextData {
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<UserData | null>(null);
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -33,13 +41,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     async function loadStoredSession() {
       try {
         const data = await getInitialSession();
-        
+
         if (data && data.profile?.status === 'active') {
           setUser(data.user);
           setProfile(data.profile);
         }
       } catch (error) {
-        console.error("Falha ao restaurar sessão:", error);
+        console.error('Falha ao restaurar sessão:', error);
       } finally {
         setLoading(false);
       }
@@ -66,14 +74,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   return (
-    <AuthContext.Provider 
-      value={{ 
-        user, 
-        profile, 
-        isAuthenticated: !!user, 
-        loading, 
-        login: handleLogin, 
-        logout: handleLogout 
+    <AuthContext.Provider
+      value={{
+        user,
+        profile,
+        isAuthenticated: !!user,
+        loading,
+        login: handleLogin,
+        logout: handleLogout,
       }}
     >
       {children}

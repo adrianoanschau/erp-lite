@@ -15,11 +15,11 @@ const config: ForgeConfig = {
   makers: [
     new MakerSquirrel({}),
     new MakerZIP({}, ['darwin']),
-    new MakerRpm({
-      options: {
-        categories: ['Utility'],
-      },
-    }),
+    // new MakerRpm({
+    //   options: {
+    //     categories: ['Utility'],
+    //   },
+    // }),
     new MakerDeb({
       options: {
         categories: ['Utility'],

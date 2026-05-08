@@ -1,5 +1,5 @@
-import { SupabaseProductRepository } from "../app/repositories";
-import { AuthService, SessionService } from "../app/services";
+import { SupabaseProductRepository } from '../app/repositories';
+import { AuthService, SessionService } from '../app/services';
 
 export const serviceRegistry = {
   auth: new AuthService(),

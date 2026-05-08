@@ -6,5 +6,5 @@ import './assets/index.css';
 createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <LoginForm />
-  </React.StrictMode>,
+  </React.StrictMode>
 );

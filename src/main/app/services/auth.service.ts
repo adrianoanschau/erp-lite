@@ -1,11 +1,12 @@
-import { supabase } from "./supabase";
+import { supabase } from './supabase';
 
 export class AuthService {
   async login(email: string, password: string) {
-    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const { data: authData, error: authError } =
+      await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
     if (authError) throw new Error(authError.message);
 

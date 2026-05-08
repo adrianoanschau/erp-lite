@@ -31,5 +31,5 @@ export const StorageService = {
 
   deleteToken() {
     store.delete('auth_token');
-  }
+  },
 };

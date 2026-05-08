@@ -1,9 +1,9 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
-import path from 'path'
-import 'dotenv/config'
-import { IPCManager } from './config/IPCManager'
-import { serviceRegistry } from './config/serviceRegistry'
-import { StorageService } from './app/services'
+import { app, BrowserWindow, ipcMain } from 'electron';
+import path from 'path';
+import 'dotenv/config';
+import { IPCManager } from './config/IPCManager';
+import { serviceRegistry } from './config/serviceRegistry';
+import { StorageService } from './app/services';
 
 let splashWindow: BrowserWindow | null = null;
 let loginWindow: BrowserWindow | null = null;
@@ -31,6 +31,20 @@ function setupIPC() {
     StorageService.saveToken(JSON.stringify(sessionData));
     createMainWindow();
   });
+
+  ipcMain.on('window:minimize', (event) => {
+    const win = BrowserWindow.fromWebContents(event.sender);
+    win?.minimize();
+  });
+
+  ipcMain.on('window:maximize', (event) => {
+    const win = BrowserWindow.fromWebContents(event.sender);
+    if (win?.isMaximized()) {
+      win.unmaximize();
+    } else {
+      win?.maximize();
+    }
+  });
 }
 
 function createSplashWindow() {
@@ -39,16 +53,18 @@ function createSplashWindow() {
     height: 600,
     frame: false,
     resizable: false,
+    transparent: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       sandbox: true,
-    }
+    },
   });
 
-  const url = (process.env.NODE_ENV === 'development' || !app.isPackaged)
-    ? 'http://localhost:5173/splash.html/#/?mode=initial_boot'
-    : path.join(__dirname, '../renderer/splash.html/#/?mode=initial_boot');
+  const url =
+    process.env.NODE_ENV === 'development' || !app.isPackaged
+      ? 'http://localhost:5173/splash.html/#/?mode=initial_boot'
+      : path.join(__dirname, '../renderer/splash.html/#/?mode=initial_boot');
 
   splashWindow.loadURL(url);
   closeLoginWindow();
@@ -65,12 +81,13 @@ function createLoginWindow() {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       sandbox: true,
-    }
+    },
   });
 
-  const url = (process.env.NODE_ENV === 'development' || !app.isPackaged)
-    ? 'http://localhost:5173/login.html'
-    : path.join(__dirname, '../renderer/login.html');
+  const url =
+    process.env.NODE_ENV === 'development' || !app.isPackaged
+      ? 'http://localhost:5173/login.html'
+      : path.join(__dirname, '../renderer/login.html');
 
   loginWindow.loadURL(url);
   closeSplashWindow();
@@ -82,20 +99,17 @@ function createMainWindow() {
     width: 1200,
     height: 960,
     frame: false,
-    titleBarStyle: 'hidden',
-    titleBarOverlay: {
-      height: 0,
-    },
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       sandbox: true,
-    }
+    },
   });
 
-  const url = (process.env.NODE_ENV === 'development' || !app.isPackaged)
-    ? 'http://localhost:5173'
-    : path.join(__dirname, '../renderer/index.html');
+  const url =
+    process.env.NODE_ENV === 'development' || !app.isPackaged
+      ? 'http://localhost:5173'
+      : path.join(__dirname, '../renderer/index.html');
 
   mainWindow.loadURL(url);
   mainWindow.maximize();
